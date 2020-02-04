@@ -1,0 +1,8 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+metadata:
+  name: sunshine-php-2020
+build:
+  artifacts:
+  - image: ar4mirez/tweetcrow-node-collector
+    context: ./node-collector/
