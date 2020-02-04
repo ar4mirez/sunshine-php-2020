@@ -1,0 +1,23 @@
+{
+  "name": "@ar4mirez/collector",
+  "version": "1.0.0",
+  "description": "This is a simple twit collector that uses the stream API and filters based on hashtags.",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "test": "ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/ar4mirez/sunshine-php-2020.git"
+  },
+  "keywords": [
+    "twitter-sdk",
+    "nodejs"
+  ],
+  "author": "Angel Ramirez <angel@cuemby.com>",
+  "license": "SEE LICENSE.md",
+  "dependencies": {
+    "twit": "^2.2.11"
+  }
+}
