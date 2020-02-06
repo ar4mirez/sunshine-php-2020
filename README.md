@@ -20,3 +20,8 @@ docker run -ti --rm -p 1337:1337 \
 # You can also pass an .env
 docker run -ti --rm -p 1337:1337 --env-file node-collector/.env ar4mirez/tweetcrow-node-collector:dirty
 ```
+
+```shell
+# running a local instance of RethinkDB
+docker run -ti --rm --name database -v "$(pwd)/.data:/data" -p 28080:8080 -p 28015:28015 rethinkdb
+```
