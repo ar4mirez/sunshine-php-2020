@@ -1,6 +1,8 @@
-# TweetCrow
+# Sunshine PHP 2020
 
-TweetCrow is a tweet reader that count how many tweets a user does against a particular hashtag.
+These repo contains the support files used on my talks at Sunshine PHP 2020. #sunphp20.
+
+The PHP examples under `kubernetes-skaffold` are from `https://github.com/ProdigyView-Toolkit/Microservices-Examples-PHP` full credit to [Devin Dixon](https://github.com/ProdigyView).
 
 ## Disclaimer please read before use
 
@@ -9,19 +11,52 @@ TweetCrow is a tweet reader that count how many tweets a user does against a par
 ## Get started
 
 ```shell
-# running the collector locally.
-docker run -ti --rm -p 1337:1337 \
-    --env TWITTER_CONSUMER_API_KEY \
-    --env TWITTER_CONSUMER_SECRET_KEY \
-    --env TWITTER_ACCESS_TOKEN \
-    --env TWITTER_ACCESS_TOKEN_SECRET \
-    ar4mirez/tweetcrow-node-collector:dirty
+# creating a Kubernetes cluster with kind.
+kind create cluster --name sunphp20 --config kind.yaml
 
-# You can also pass an .env
-docker run -ti --rm -p 1337:1337 --env-file node-collector/.env ar4mirez/tweetcrow-node-collector:dirty
+# setup ingress
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.28.0/deploy/static/mandatory.yaml
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.28.0/deploy/static/provider/baremetal/service-nodeport.yaml
+
+kubectl patch deployments -n ingress-nginx nginx-ingress-controller -p '{"spec":{"template":{"spec":{"containers":[{"name":"nginx-ingress-controller","ports":[{"containerPort":80,"hostPort":80},{"containerPort":443,"hostPort":443}]}],"nodeSelector":{"ingress-ready":"true"},"tolerations":[{"key":"node-role.kubernetes.io/master","operator":"Equal","effect":"NoSchedule"}]}}}}'
+```
+
+
+```shell
+# use helm to install rabbitmq
+helm install --name rabbitmq stable/rabbitmq
+
+# rabbitmq
+Credentials:
+
+    Username      : user
+    echo "Password      : $(kubectl get secret --namespace develop rabbitmq -o jsonpath="{.data.rabbitmq-password}" | base64 --decode)"
+    echo "ErLang Cookie : $(kubectl get secret --namespace develop rabbitmq -o jsonpath="{.data.rabbitmq-erlang-cookie}" | base64 --decode)"
+
+RabbitMQ can be accessed within the cluster on port  at rabbitmq.develop.svc.cluster.local
+
+To access for outside the cluster, perform the following steps:
+
+To Access the RabbitMQ AMQP port:
+
+    kubectl port-forward --namespace develop svc/rabbitmq 5672:5672
+    echo "URL : amqp://127.0.0.1:5672/"
+
+To Access the RabbitMQ Management interface:
+
+    kubectl port-forward --namespace develop svc/rabbitmq 15672:15672
+    echo "URL : http://127.0.0.1:15672/"
 ```
 
 ```shell
-# running a local instance of RethinkDB
-docker run -ti --rm --name database -v "$(pwd)/.data:/data" -p 28080:8080 -p 28015:28015 rethinkdb
+# kuberntes-050
+kubectl apply -f kubernetes-050/
+```
+
+```shell
+# kuberntes-skaffold
+cd kubernetes-skaffold
+
+skaffold dev
 ```

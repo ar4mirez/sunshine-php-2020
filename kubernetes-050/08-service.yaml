@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: sup-service
+spec:
+  selector:
+    app: sup
+  ports:
+  # Default port used by the image
+  - port: 5678
+    targetPort: 5678

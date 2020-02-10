@@ -1,0 +1,29 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- manifests/api.yaml
+- manifests/media.yaml
+- manifests/notification.yaml
+- manifests/ingress.yaml
+
+namespace: develop
+
+images:
+- name: api-image
+  newName: ar4mirez/sunphp20-api
+- name: media-image
+  newName: ar4mirez/sunphp20-media
+- name: notification-image
+  newName: ar4mirez/sunphp20-notification
+
+configMapGenerator:
+- name: configmaps
+  files:
+  - envs/configmaps.env
+
+secretGenerator:
+- name: secrets
+  files:
+  - envs/secrets.env
+  - envs/aws.env

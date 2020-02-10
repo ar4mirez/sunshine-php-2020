@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sup-app
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: sup
+  template:
+    metadata:
+      labels:
+        app: sup
+    spec:
+      containers:
+      - name: sup-app
+        image: hashicorp/http-echo
+        args:
+        - "-text=Sup world"
+        resources:
+          limits:
+            memory: "64Mi"
+            cpu: "20m"
+        ports:
+        - containerPort: 5678

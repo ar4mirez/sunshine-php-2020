@@ -1,0 +1,19 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: hello-app
+  labels:
+    app: hello
+spec:
+  containers:
+  - name: hello-app
+    image: hashicorp/http-echo
+    args:
+    - "-text=Hello world"
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "50m"
+      requests:
+        memory: "64Mi"
+        cpu: "20m"

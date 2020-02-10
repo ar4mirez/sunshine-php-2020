@@ -1,0 +1,16 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+metadata:
+  name: sunshine-php-2020
+build:
+  artifacts:
+  - image: ar4mirez/sunphp20-media
+    context: ./media
+  - image: ar4mirez/sunphp20-notification
+    context: ./notification
+  - image: ar4mirez/sunphp20-api
+    context: ./api
+deploy:
+  kustomize:
+    paths:
+    - ./k8s

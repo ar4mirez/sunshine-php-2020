@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: app-ingress
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /hello
+        backend:
+          serviceName: hello-service
+          servicePort: 5678
+      - path: /bye
+        backend:
+          serviceName: bye-service
+          servicePort: 5678
+      - path: /sup
+        backend:
+          serviceName: sup-service
+          servicePort: 5678

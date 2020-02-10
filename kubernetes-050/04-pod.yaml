@@ -1,0 +1,12 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: bye-app
+  labels:
+    app: bye
+spec:
+  containers:
+  - name: bye-app
+    image: hashicorp/http-echo
+    args:
+    - "-text=Bye world"

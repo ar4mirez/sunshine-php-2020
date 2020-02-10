@@ -1,0 +1,10 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: bye-service
+spec:
+  selector:
+    app: bye
+  ports:
+  # Default port used by the image
+  - port: 5678
